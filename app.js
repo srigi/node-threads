@@ -5,6 +5,7 @@ import express from 'express';
 import factorial from './factorial';
 import logger from 'morgan';
 import pg from 'pg';
+import {Worker} from 'webworker-threads';
 
 const app = express();
 const port = process.env.PORT || 8000;
