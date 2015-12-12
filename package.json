@@ -1,0 +1,12 @@
+{
+  "name": "nodeapp",
+  "dependencies": {
+    "babel": "^6.3.13",
+    "babel-preset-es2015": "^6.3.13",
+    "babel-preset-stage-0": "^6.3.13",
+    "chalk": "^1.1.1",
+    "express": "^4.13.3",
+    "morgan": "^1.6.1",
+    "pg": "^4.4.3"
+  }
+}
