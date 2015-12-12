@@ -1,3 +1,4 @@
+/* global postMessage */
 'use strict';
 
 import chalk from 'chalk';
@@ -9,6 +10,20 @@ import {Worker} from 'webworker-threads';
 
 const app = express();
 const port = process.env.PORT || 8000;
+
+const factorialHandler = function() {
+  const factorialFn = (n) => {
+    var ret = 1;
+
+    for (var i = 2; i <= n; i += 1) {
+      ret *= i;
+    }
+
+    return ret;
+  };
+
+  this.onmessage = (ev) => postMessage({result: factorialFn(ev.data.n)});
+};
 
 
 app.use(logger('[:status] :method :url (:response-time ms)'));
@@ -89,6 +104,15 @@ app.get('/fractal', (req, res) => {
 
 app.get('/factorial/:num', (req, res) => {
   res.end('' + factorial(Number(req.params.num)));
+});
+
+app.get('/factorial-thread/:num', (req, res) => {
+  const worker = new Worker(factorialHandler);
+
+  worker.onmessage = (ev) => {
+    res.end(`${ev.data.result}`);
+  };
+  worker.postMessage({n: Number(req.params.num)});
 });
 
 
